@@ -6,18 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.servlet.FrameworkServlet;
 
-import com.khs.sherpa.json.service.ActivityService;
-import com.khs.sherpa.json.service.DefaultActivityService;
-import com.khs.sherpa.json.service.DefaultTokenService;
 import com.khs.sherpa.json.service.JSONService;
 import com.khs.sherpa.json.service.SessionStatus;
-import com.khs.sherpa.json.service.SessionTokenService;
-import com.khs.sherpa.json.service.SpringAuthentication;
-import com.khs.sherpa.json.service.UserService;
+import com.khs.sherpa.util.SettingsLoader;
+import com.khs.sherpa.util.SpringSettingsLoader;
 
 public class SpringSherpaServlet extends FrameworkServlet {
 
@@ -48,29 +42,26 @@ public class SpringSherpaServlet extends FrameworkServlet {
 	@Override
 	protected void initFrameworkServlet() throws ServletException {
 		
-		try {
-			service.setUserService(getWebApplicationContext().getBean(UserService.class));
-		} catch (NoSuchBeanDefinitionException e) {
-			UserService userService = (UserService)
-					getWebApplicationContext().getAutowireCapableBeanFactory().createBean(SpringAuthentication.class, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
-			service.setUserService(userService);
+		String configFile = "sherpa.properties";
+		if(getInitParameter("sherpaConfigPath") != null) {
+			configFile = getInitParameter("sherpaConfigPath");
 		}
 		
-		try {
-			service.setTokenService(getWebApplicationContext().getBean(SessionTokenService.class));
-		} catch (NoSuchBeanDefinitionException e) {
-			SessionTokenService tokenService = (SessionTokenService)
-					getWebApplicationContext().getAutowireCapableBeanFactory().createBean(DefaultTokenService.class, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
-			service.setTokenService(tokenService);
-		}
+		SettingsLoader loader = new SpringSettingsLoader(configFile, getWebApplicationContext());
 		
-		try {
-			service.setActivityService(getWebApplicationContext().getBean(ActivityService.class));
-		} catch (NoSuchBeanDefinitionException e) {
-			ActivityService activityService = (ActivityService)
-					getWebApplicationContext().getAutowireCapableBeanFactory().createBean(DefaultActivityService.class, AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE, true);
-			service.setActivityService(activityService);
-		}
+		// loading service
+		service.setUserService(loader.userService());
+		service.setTokenService(loader.tokenService());
+		service.setActivityService(loader.activityService());
+		
+		// loading settings
+		settings.endpointPackage = loader.endpoint();
+		settings.sessionTimeout = loader.timeout();
+		settings.dateFormat = loader.dateFormat();
+		settings.dateTimeFormat = loader.dateTimeFormat();
+		settings.activityLogging = loader.logging();
+		settings.encode = loader.encoding();
+		settings.sherpaAdmin = loader.sherpaAdmin();
 		
 		Map<String, Object> endpoints = getWebApplicationContext().getBeansWithAnnotation(com.khs.sherpa.annotation.Endpoint.class);
 		ReflectionCache.addObjects(endpoints);
