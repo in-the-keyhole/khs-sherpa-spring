@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.FrameworkServlet;
 
+import com.khs.sherpa.endpoint.SherpaEndpoint;
 import com.khs.sherpa.json.service.JSONService;
 import com.khs.sherpa.json.service.SessionStatus;
 import com.khs.sherpa.util.SettingsLoader;
@@ -79,6 +80,8 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		Map<String, Object> endpoints = getWebApplicationContext().getBeansWithAnnotation(com.khs.sherpa.annotation.Endpoint.class);
 		ReflectionCache.addObjects(endpoints);
 		
+		// hard code sherpa endpoint
+		ReflectionCache.addObject("sherpa", SherpaEndpoint.class);
 	}
 	
 }
