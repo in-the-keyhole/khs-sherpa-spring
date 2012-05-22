@@ -7,7 +7,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.khs.sherpa.json.service.ActivityService;
-import com.khs.sherpa.json.service.DefaultUserService;
 import com.khs.sherpa.json.service.SessionTokenService;
 import com.khs.sherpa.json.service.SpringAuthentication;
 import com.khs.sherpa.json.service.UserService;
