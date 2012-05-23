@@ -16,6 +16,8 @@ package com.khs.sherpa.servlet;
  * limitations under the License.
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -27,6 +29,15 @@ import org.springframework.web.servlet.FrameworkServlet;
 import com.khs.sherpa.endpoint.SherpaEndpoint;
 import com.khs.sherpa.json.service.JSONService;
 import com.khs.sherpa.json.service.SessionStatus;
+import com.khs.sherpa.parser.BooleanParamParser;
+import com.khs.sherpa.parser.CalendarParamParser;
+import com.khs.sherpa.parser.DateParamParser;
+import com.khs.sherpa.parser.DoubleParamPaser;
+import com.khs.sherpa.parser.FloatParamParser;
+import com.khs.sherpa.parser.IntegerParamParser;
+import com.khs.sherpa.parser.ParamParser;
+import com.khs.sherpa.parser.StringParamParser;
+import com.khs.sherpa.util.SettingsContext;
 import com.khs.sherpa.util.SettingsLoader;
 import com.khs.sherpa.util.SpringSettingsLoader;
 
@@ -36,7 +47,6 @@ public class SpringSherpaServlet extends FrameworkServlet {
 	private static final long serialVersionUID = -6712767422014510622L;
 
 	private JSONService service = new JSONService();;
-	private Settings settings = new Settings();
 	
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,7 +54,6 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		
 		SherpaRequest sherpa = new SherpaRequest();
 		sherpa.setService(service);
-		sherpa.setSettings(settings);
 		sherpa.setSessionStatus(sessionStatus);
 		sherpa.loadRequest(request, response);
 	
@@ -69,6 +78,7 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		service.setActivityService(loader.activityService());
 		
 		// loading settings
+		Settings settings = new Settings();
 		settings.endpointPackage = loader.endpoint();
 		settings.sessionTimeout = loader.timeout();
 		settings.dateFormat = loader.dateFormat();
@@ -76,6 +86,19 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		settings.activityLogging = loader.logging();
 		settings.encode = loader.encoding();
 		settings.sherpaAdmin = loader.sherpaAdmin();
+		SettingsContext context = new SettingsContext();
+		context.setSettings(settings);
+		
+		// initialize parsers
+		List<ParamParser<?>> parsers = new ArrayList<ParamParser<?>>();
+		parsers.add(new StringParamParser());
+		parsers.add(new IntegerParamParser());
+		parsers.add(new DoubleParamPaser());
+		parsers.add(new FloatParamParser());
+		parsers.add(new BooleanParamParser());
+		parsers.add(new DateParamParser());
+		parsers.add(new CalendarParamParser());
+		service.setParsers(parsers);
 		
 		Map<String, Object> endpoints = getWebApplicationContext().getBeansWithAnnotation(com.khs.sherpa.annotation.Endpoint.class);
 		ReflectionCache.addObjects(endpoints);
