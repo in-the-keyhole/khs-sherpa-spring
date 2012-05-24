@@ -118,7 +118,7 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		ReflectionCache.addObjects(endpoints);
 		
 		// hard code sherpa endpoint
-		ReflectionCache.addObject("sherpa", SherpaEndpoint.class);
+		ReflectionCache.addObject(SherpaEndpoint.class.getName(), SherpaEndpoint.class);
 	}
 	
 }
