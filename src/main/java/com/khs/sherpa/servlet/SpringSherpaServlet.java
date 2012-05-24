@@ -28,6 +28,7 @@ import org.springframework.web.servlet.FrameworkServlet;
 
 import com.khs.sherpa.endpoint.SherpaEndpoint;
 import com.khs.sherpa.json.service.JSONService;
+import com.khs.sherpa.json.service.JsonProvider;
 import com.khs.sherpa.json.service.SessionStatus;
 import com.khs.sherpa.parser.BooleanParamParser;
 import com.khs.sherpa.parser.CalendarParamParser;
@@ -40,11 +41,9 @@ import com.khs.sherpa.parser.ParamParser;
 import com.khs.sherpa.parser.StringParamParser;
 import com.khs.sherpa.util.SettingsContext;
 import com.khs.sherpa.util.SettingsLoader;
-import com.khs.sherpa.util.SpringSettingsLoader;
 
 public class SpringSherpaServlet extends FrameworkServlet {
 
-	
 	private static final long serialVersionUID = -6712767422014510622L;
 
 	private JSONService service = new JSONService();;
@@ -60,7 +59,6 @@ public class SpringSherpaServlet extends FrameworkServlet {
 	
 		sherpa.setTarget(ReflectionCache.getObject(sherpa.getEndpoint()));
 		sherpa.run();
-		
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class SpringSherpaServlet extends FrameworkServlet {
 			configFile = getInitParameter("sherpaConfigPath");
 		}
 		
-		SettingsLoader loader = new SpringSettingsLoader(configFile, getWebApplicationContext());
+		SettingsLoader loader = new SettingsLoader(configFile);
 		
 		// loading service
 		service.setUserService(loader.userService());
@@ -90,6 +88,15 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		SettingsContext context = new SettingsContext();
 		context.setSettings(settings);
 		
+		JsonProvider jsonProvider = null;
+		try {
+			jsonProvider = settings.jsonProvider.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
 		// initialize parsers
 		List<ParamParser<?>> parsers = new ArrayList<ParamParser<?>>();
 		parsers.add(new StringParamParser());
@@ -99,7 +106,12 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		parsers.add(new BooleanParamParser());
 		parsers.add(new DateParamParser());
 		parsers.add(new CalendarParamParser());
-		parsers.add(new JsonParamParser());
+		
+		JsonParamParser jsonParamParser = new JsonParamParser();
+		jsonParamParser.setJsonProvider(jsonProvider);
+		parsers.add(jsonParamParser);
+
+		service.setJsonProvider(jsonProvider);
 		service.setParsers(parsers);
 		
 		Map<String, Object> endpoints = getWebApplicationContext().getBeansWithAnnotation(com.khs.sherpa.annotation.Endpoint.class);
