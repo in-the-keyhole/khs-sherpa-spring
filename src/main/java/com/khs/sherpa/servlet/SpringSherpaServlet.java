@@ -24,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.FrameworkServlet;
 
 import com.khs.sherpa.endpoint.SherpaEndpoint;
@@ -41,6 +42,7 @@ import com.khs.sherpa.parser.ParamParser;
 import com.khs.sherpa.parser.StringParamParser;
 import com.khs.sherpa.util.SettingsContext;
 import com.khs.sherpa.util.SettingsLoader;
+import com.khs.sherpa.util.SpringSettingsLoader;
 
 public class SpringSherpaServlet extends FrameworkServlet {
 
@@ -69,7 +71,7 @@ public class SpringSherpaServlet extends FrameworkServlet {
 			configFile = getInitParameter("sherpaConfigPath");
 		}
 		
-		SettingsLoader loader = new SettingsLoader(configFile);
+		SettingsLoader loader = new SpringSettingsLoader(configFile, this.getWebApplicationContext());
 		
 		// loading service
 		service.setUserService(loader.userService());
@@ -88,14 +90,7 @@ public class SpringSherpaServlet extends FrameworkServlet {
 		SettingsContext context = new SettingsContext();
 		context.setSettings(settings);
 		
-		JsonProvider jsonProvider = null;
-		try {
-			jsonProvider = settings.jsonProvider.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+		JsonProvider jsonProvider = loader.jsonProvider();
 		
 		// initialize parsers
 		List<ParamParser<?>> parsers = new ArrayList<ParamParser<?>>();
