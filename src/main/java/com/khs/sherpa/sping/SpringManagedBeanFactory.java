@@ -72,49 +72,40 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 	
 	public void loadManagedBeans(Set<Class<?>> types) {
 		for(Class<?> type: types) {
-			this.loadManagedBean(type);
+			this.loadManagedBean(Util.getObjectName(type), type);
 		}
 	}
 	
-	public void loadManagedBean(Class<?> type) {
+	public void loadManagedBean(String name, Class<?> type) {
 		BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) springApplicationContext.getAutowireCapableBeanFactory());
 		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 		beanDefinition.setBeanClass(type);
-		registry.registerBeanDefinition(Util.getObjectName(type), beanDefinition);
+		registry.registerBeanDefinition(name, beanDefinition);
 	}
 	
 	public void init(SherpaSettings settings, ServletContext context) {
-		BeanDefinitionRegistry registry = ((BeanDefinitionRegistry)springApplicationContext.getAutowireCapableBeanFactory());
 		try {
 			springApplicationContext.getBean(UserService.class);
 		} catch (NoSuchBeanDefinitionException e) {
-			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-			beanDefinition.setBeanClass(settings.userService());
-			registry.registerBeanDefinition("userService", beanDefinition);
+			this.loadManagedBean("userService", settings.userService());
 		}
 		
 		try {
 			springApplicationContext.getBean(TokenService.class);
 		} catch (NoSuchBeanDefinitionException e) {
-			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-			beanDefinition.setBeanClass(settings.tokenService());
-			registry.registerBeanDefinition("tokenService", beanDefinition);
+			this.loadManagedBean("tokenService", settings.tokenService());
 		}
 
 		try {
 			springApplicationContext.getBean(ActivityService.class);
 		} catch (NoSuchBeanDefinitionException e) {
-			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-			beanDefinition.setBeanClass(settings.activityService());
-			registry.registerBeanDefinition("activityService", beanDefinition);
+			this.loadManagedBean("activityService", settings.activityService());
 		}
 		
 		try {
 			springApplicationContext.getBean(JsonProvider.class);
 		} catch (NoSuchBeanDefinitionException e) {
-			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-			beanDefinition.setBeanClass(settings.jsonProvider());
-			registry.registerBeanDefinition("jsonProvider", beanDefinition);
+			this.loadManagedBean("jsonProvider", settings.jsonProvider());
 		}
 		
 		// load the root domain
