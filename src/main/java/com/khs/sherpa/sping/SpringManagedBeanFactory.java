@@ -1,10 +1,11 @@
 package com.khs.sherpa.sping;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.reflections.Reflections;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -21,6 +22,7 @@ import com.khs.sherpa.exception.NoSuchManagedBeanExcpetion;
 import com.khs.sherpa.json.service.ActivityService;
 import com.khs.sherpa.json.service.JsonProvider;
 import com.khs.sherpa.json.service.UserService;
+import com.khs.sherpa.util.Util;
 
 public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageBeanFactory, ApplicationContextAware {
 
@@ -62,6 +64,25 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		this.springApplicationContext = applicationContext;
 	}
 
+	public void loadManagedBeans(String path) {
+		Reflections reflections = new Reflections(path);
+		this.loadManagedBeans(reflections.getTypesAnnotatedWith(javax.annotation.ManagedBean.class));
+		this.loadManagedBeans(reflections.getTypesAnnotatedWith(com.khs.sherpa.annotation.Endpoint.class));
+	}
+	
+	public void loadManagedBeans(Set<Class<?>> types) {
+		for(Class<?> type: types) {
+			this.loadManagedBean(type);
+		}
+	}
+	
+	public void loadManagedBean(Class<?> type) {
+		BeanDefinitionRegistry registry = ((BeanDefinitionRegistry) springApplicationContext.getAutowireCapableBeanFactory());
+		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+		beanDefinition.setBeanClass(type);
+		registry.registerBeanDefinition(Util.getObjectName(type), beanDefinition);
+	}
+	
 	public void init(SherpaSettings settings, ServletContext context) {
 		BeanDefinitionRegistry registry = ((BeanDefinitionRegistry)springApplicationContext.getAutowireCapableBeanFactory());
 		try {
@@ -97,6 +118,6 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		}
 		
 		// load the root domain
-//		this.loadManagedBeans("com.khs.sherpa.endpoint");		
+		this.loadManagedBeans("com.khs.sherpa.endpoint");		
 	}
 }
