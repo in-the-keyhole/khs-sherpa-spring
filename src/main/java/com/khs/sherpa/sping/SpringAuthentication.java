@@ -1,4 +1,4 @@
-package com.khs.sherpa.json.service;
+package com.khs.sherpa.sping;
 
 /*
  * Copyright 2012 the original author or authors.
@@ -26,6 +26,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.khs.sherpa.exception.SherpaPermissionExcpetion;
+import com.khs.sherpa.json.service.UserService;
 
 public class SpringAuthentication implements UserService {
 
