@@ -1,5 +1,6 @@
 package com.khs.sherpa.sping;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -79,5 +80,8 @@ public class SpingApplicationContext implements ApplicationContext {
 
 	public Map<String, Object> getEndpointTypes() {
 		return managedBeanFactory.getEndpointTypes();
+	}
+	public <T> Collection<T> getManagedBeans(Class<T> type) {
+		return managedBeanFactory.getManagedBeans(type);
 	}
 }

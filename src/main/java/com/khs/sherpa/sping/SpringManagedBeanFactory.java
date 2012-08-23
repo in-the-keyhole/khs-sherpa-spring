@@ -1,5 +1,6 @@
 package com.khs.sherpa.sping;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,9 +20,18 @@ import com.khs.sherpa.annotation.Endpoint;
 import com.khs.sherpa.context.factory.InitManageBeanFactory;
 import com.khs.sherpa.context.factory.ManagedBeanFactory;
 import com.khs.sherpa.exception.NoSuchManagedBeanExcpetion;
+import com.khs.sherpa.exception.SherpaRuntimeException;
 import com.khs.sherpa.json.service.ActivityService;
 import com.khs.sherpa.json.service.JsonProvider;
 import com.khs.sherpa.json.service.UserService;
+import com.khs.sherpa.parser.BooleanParamParser;
+import com.khs.sherpa.parser.CalendarParamParser;
+import com.khs.sherpa.parser.DateParamParser;
+import com.khs.sherpa.parser.DoubleParamPaser;
+import com.khs.sherpa.parser.FloatParamParser;
+import com.khs.sherpa.parser.IntegerParamParser;
+import com.khs.sherpa.parser.JsonParamParser;
+import com.khs.sherpa.parser.StringParamParser;
 import com.khs.sherpa.util.Util;
 
 public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageBeanFactory, ApplicationContextAware {
@@ -40,6 +50,10 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		return springApplicationContext.getBean(type);
 	}
 
+	public <T> Collection<T> getManagedBeans(Class<T> type) {
+		return springApplicationContext.getBeansOfType(type).values();
+	}
+	
 	public Object getManagedBean(String name) throws NoSuchManagedBeanExcpetion {
 		return springApplicationContext.getBean(name);
 	}
@@ -66,7 +80,6 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 
 	public void loadManagedBeans(String path) {
 		Reflections reflections = new Reflections(path);
-		this.loadManagedBeans(reflections.getTypesAnnotatedWith(javax.annotation.ManagedBean.class));
 		this.loadManagedBeans(reflections.getTypesAnnotatedWith(com.khs.sherpa.annotation.Endpoint.class));
 	}
 	
@@ -108,7 +121,24 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 			this.loadManagedBean("jsonProvider", settings.jsonProvider());
 		}
 		
+		this.loadManagedBean("StringParamParser", StringParamParser.class);
+		this.loadManagedBean("IntegerParamParser", IntegerParamParser.class);
+		this.loadManagedBean("DoubleParamPaser", DoubleParamPaser.class);
+		this.loadManagedBean("FloatParamParser", FloatParamParser.class);
+		this.loadManagedBean("BooleanParamParser", BooleanParamParser.class);
+		this.loadManagedBean("DateParamParser", DateParamParser.class);
+		this.loadManagedBean("CalendarParamParser", CalendarParamParser.class);
+		this.loadManagedBean("JsonParamParser", JsonParamParser.class);
+		
+		try {
+			this.getManagedBean(JsonParamParser.class).setJsonProvider(this.getManagedBean(JsonProvider.class));
+		} catch (NoSuchManagedBeanExcpetion e) {
+			e.printStackTrace();
+			throw new SherpaRuntimeException(e);
+		}
+		
 		// load the root domain
 		this.loadManagedBeans("com.khs.sherpa.endpoint");		
 	}
+
 }
