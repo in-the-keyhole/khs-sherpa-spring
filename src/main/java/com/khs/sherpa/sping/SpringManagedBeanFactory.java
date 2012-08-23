@@ -130,13 +130,6 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		this.loadManagedBean("CalendarParamParser", CalendarParamParser.class);
 		this.loadManagedBean("JsonParamParser", JsonParamParser.class);
 		
-		try {
-			this.getManagedBean(JsonParamParser.class).setJsonProvider(this.getManagedBean(JsonProvider.class));
-		} catch (NoSuchManagedBeanExcpetion e) {
-			e.printStackTrace();
-			throw new SherpaRuntimeException(e);
-		}
-		
 		// load the root domain
 		this.loadManagedBeans("com.khs.sherpa.endpoint");		
 	}
