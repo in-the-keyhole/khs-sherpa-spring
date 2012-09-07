@@ -28,6 +28,8 @@
 		<url>https://github.com/in-the-keyhole/khs-sherpa-spring</url>
 		<connection>scm:git:https://github.com/in-the-keyhole/khs-sherpa-spring.git</connection>
 		<developerConnection>scm:git:git@github.com:in-the-keyhole/khs-sherpa-spring.git</developerConnection>
+		<username>dpitt</username>
+		<password>Lauren02</password>	
 	</scm>
 
 	<distributionManagement>
