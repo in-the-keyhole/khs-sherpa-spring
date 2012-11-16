@@ -30,14 +30,6 @@
 		<developerConnection>scm:git:git@github.com:in-the-keyhole/khs-sherpa-spring.git</developerConnection>
 	</scm>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>khs-snapshot</id>
-			<name>Keyhole Software Snapshot</name>
-			<url>http://maven.keyholekc.com/content/repositories/snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<build>
 		<plugins>
 			<plugin>

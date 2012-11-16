@@ -24,6 +24,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 
 import com.khs.sherpa.exception.SherpaPermissionExcpetion;
 import com.khs.sherpa.json.service.UserService;
@@ -45,6 +47,11 @@ public class SpringAuthentication implements UserService {
 		for(GrantedAuthority auth: authentication.getAuthorities()) {
 			roles.add(auth.getAuthority());
 		}
+		
+		SecurityContextImpl securityContext = new SecurityContextImpl();
+		securityContext.setAuthentication(authentication);
+		
+		SecurityContextHolder.setContext(securityContext);
 		
 		return roles.toArray(new String[roles.size()]);
 		
