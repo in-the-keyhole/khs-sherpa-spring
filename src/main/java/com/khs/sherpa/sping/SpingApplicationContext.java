@@ -49,6 +49,12 @@ public class SpingApplicationContext implements ApplicationContext {
 		}
 		
 		managedBeanFactory = context.getBean(ManagedBeanFactory.class);
+		{
+			BeanDefinitionRegistry registry = ((BeanDefinitionRegistry)context.getAutowireCapableBeanFactory());
+			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+			beanDefinition.setBeanClass(SpringRequestEvent.class);
+			registry.registerBeanDefinition(SpringRequestEvent.class.getCanonicalName(), beanDefinition);
+		}
 	}
 	public boolean containsManagedBean(Class<?> type) {
 		return managedBeanFactory.containsManagedBean(type);

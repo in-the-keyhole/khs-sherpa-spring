@@ -19,6 +19,9 @@ package com.khs.sherpa.sping;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +29,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 import com.khs.sherpa.exception.SherpaPermissionExcpetion;
 import com.khs.sherpa.json.service.UserService;
@@ -35,7 +40,7 @@ public class SpringAuthentication implements UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	public String[] authenticate(String username, String password) {
+	public String[] authenticate(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 		
 		Authentication authentication = authenticationManager.authenticate(token);
@@ -48,15 +53,16 @@ public class SpringAuthentication implements UserService {
 			roles.add(auth.getAuthority());
 		}
 		
-		SecurityContextImpl securityContext = new SecurityContextImpl();
-		securityContext.setAuthentication(authentication);
+		SecurityContextImpl context = new SecurityContextImpl();
+		context.setAuthentication(authentication);
 		
-		SecurityContextHolder.setContext(securityContext);
+		SecurityContextHolder.setContext(context);
+		
+		request.getSession().setAttribute("SPRING_SECURITY_CONTEXT_KEY", context);
 		
 		return roles.toArray(new String[roles.size()]);
 		
 	}
-
 
 	public AuthenticationManager getAuthenticationManager() {
 		return authenticationManager;
