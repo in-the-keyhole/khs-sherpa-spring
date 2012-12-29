@@ -1,4 +1,4 @@
-package com.khs.sherpa.sping;
+package com.khs.sherpa.spring;
 
 /*
  * Copyright 2012 the original author or authors.
@@ -29,16 +29,18 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.khs.sherpa.context.ApplicationContext;
 import com.khs.sherpa.context.factory.ManagedBeanFactory;
 import com.khs.sherpa.exception.NoSuchManagedBeanExcpetion;
+import com.khs.sherpa.spring.SpringApplicationContext;
+import com.khs.sherpa.spring.SpringManagedBeanFactory;
 
-public class SpingApplicationContext implements ApplicationContext {
+public class SpringApplicationContext implements ApplicationContext {
 
-	public static final String SHERPA_APPLICATION_CONTEXT_ATTRIBUTE = SpingApplicationContext.class.getName() + ".CONTEXT";
+	public static final String SHERPA_APPLICATION_CONTEXT_ATTRIBUTE = SpringApplicationContext.class.getName() + ".CONTEXT";
 	
 	private ManagedBeanFactory managedBeanFactory;
 
 	private Map<String, Object> attributes = new LinkedHashMap<String, Object>();
 
-	public SpingApplicationContext(ServletContext servletContext) {
+	public SpringApplicationContext(ServletContext servletContext) {
 		org.springframework.context.ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
 
 		if(!context.containsBean("managedBeanFactory")) {

@@ -1,4 +1,4 @@
-package com.khs.sherpa.sping;
+package com.khs.sherpa.spring;
 
 /*
  * Copyright 2012 the original author or authors.

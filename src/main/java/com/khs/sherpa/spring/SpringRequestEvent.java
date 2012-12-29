@@ -1,4 +1,4 @@
-package com.khs.sherpa.sping;
+package com.khs.sherpa.spring;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
