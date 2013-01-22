@@ -74,11 +74,11 @@ Turn on endpoint authentication by adding the following entry to the sherpa.prop
 	#turn on endpoint authentication
 	endpoint.authentication=true
 
-Authenticate with the following url request specifying userid and password, if successful, an authority token is returned. 
+Get authenticated token from Sherpa with URL below.
 
-    <url>/sherpa/action="authenticate"&userid="<userid>"&password="<password>"
+  token =  <host url>/sherpa/action="authenticate"&userid="<userid>"&password="<password>"
 
-Restful end point URL's must have auth token and userid set in the request header as shown by the javascript jquery example below. 
+Invoke end point URL using jquery, notice auth token and userid being set in request header. 
 
 	$.ajax({
 	 url:sherpa/service/users
