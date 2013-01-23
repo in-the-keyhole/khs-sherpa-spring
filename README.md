@@ -7,6 +7,7 @@ Link to Sherpa project here...[https://github.com/in-the-keyhole/khs-sherpa]
 
 Getting Started
 ---------------
+Validated with SPRING version 3.1.3-RELEASE 
 
 Using Maven: add this dependency in your 'pom.xml' (available in Maven central repo)
 
