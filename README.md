@@ -46,9 +46,9 @@ Allows Sherpa @Endpoints to @Autowire Spring beans
 Authenticate End points with Spring Security
 --------------------------------------------
 
-Add the spring application context entries shown below to the application context xml( this configures authentication against LDAP). 
+Add the spring application context entries shown below to the application context XML( this configures authentication against LDAP). 
 
-    <bean class="com.khs.security.auth.SherpaSpringAuthentication" />
+    <bean class="com.khs.sherpa.spring.SpringAuthentication"/>
        
 	<security:ldap-server id="contextSource"
 		url="ldap://<host>:<port>/dc=keyholesoftware,dc=com" 
