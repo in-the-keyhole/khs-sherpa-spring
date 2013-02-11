@@ -33,7 +33,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
 import com.khs.sherpa.exception.SherpaInvalidUsernamePassword;
-import com.khs.sherpa.exception.SherpaPermissionExcpetion;
 import com.khs.sherpa.json.service.UserService;
 
 public class SpringAuthentication implements UserService {
@@ -53,7 +52,7 @@ public class SpringAuthentication implements UserService {
 		}
 		
 		if(authentication.isAuthenticated() == false) {
-			throw new SherpaPermissionExcpetion("username and/or password is incorrect");
+			throw new SherpaInvalidUsernamePassword("username and/or password is incorrect");
 		}
 		
 		List<String> roles = new ArrayList<String>();
