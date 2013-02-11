@@ -38,6 +38,7 @@ import com.khs.sherpa.context.factory.ManagedBeanFactory;
 import com.khs.sherpa.exception.NoSuchManagedBeanExcpetion;
 import com.khs.sherpa.json.service.ActivityService;
 import com.khs.sherpa.json.service.JsonProvider;
+import com.khs.sherpa.json.service.SessionTokenService;
 import com.khs.sherpa.json.service.UserService;
 import com.khs.sherpa.parser.BooleanParamParser;
 import com.khs.sherpa.parser.CalendarParamParser;
@@ -120,7 +121,7 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		}
 		
 		try {
-			springApplicationContext.getBean(TokenService.class);
+			springApplicationContext.getBean(SessionTokenService.class);
 		} catch (NoSuchBeanDefinitionException e) {
 			this.loadManagedBean("tokenService", settings.tokenService());
 		}
