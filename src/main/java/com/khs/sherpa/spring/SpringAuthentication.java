@@ -27,10 +27,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 
+import com.khs.sherpa.exception.SherpaInvalidUsernamePassword;
 import com.khs.sherpa.exception.SherpaPermissionExcpetion;
 import com.khs.sherpa.json.service.UserService;
 
@@ -42,7 +44,14 @@ public class SpringAuthentication implements UserService {
 	public String[] authenticate(String username, String password, HttpServletRequest request, HttpServletResponse response) {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 		
-		Authentication authentication = authenticationManager.authenticate(token);
+		Authentication authentication = null;
+		
+		try {
+			authentication = authenticationManager.authenticate(token);
+		} catch (AuthenticationException e) {
+			throw new SherpaInvalidUsernamePassword("username and/or password is incorrect");
+		}
+		
 		if(authentication.isAuthenticated() == false) {
 			throw new SherpaPermissionExcpetion("username and/or password is incorrect");
 		}
