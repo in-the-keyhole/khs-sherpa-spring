@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,7 +36,7 @@ import com.khs.sherpa.json.service.UserService;
 
 public class SpringAuthentication implements UserService {
 
-	@Autowired
+	
 	private AuthenticationManager authenticationManager;
 	
 	public String[] authenticate(String username, String password, HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +67,12 @@ public class SpringAuthentication implements UserService {
 		return authenticationManager;
 	}
 
-
+	
+	
+	
+	
+	@Autowired
+	@Qualifier("authManager")
 	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}

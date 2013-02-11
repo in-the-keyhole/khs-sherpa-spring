@@ -7,8 +7,9 @@ Link to Sherpa project here...[https://github.com/in-the-keyhole/khs-sherpa]
 
 Getting Started
 ---------------
+Validated with SPRING version 3.1.3-RELEASE 
 
-Using Maven: add this dependency in your 'pom.xml' (available in Maven central repo)
+Using Maven: add this dependency in your 'pom.xml' (available in Maven central repo). 
 
     <dependency>
    	 <groupId>com.keyholesoftware</groupId>
@@ -46,9 +47,9 @@ Allows Sherpa @Endpoints to @Autowire Spring beans
 Authenticate End points with Spring Security
 --------------------------------------------
 
-Add the spring application context entries shown below to the application context xml( this configures authentication against LDAP). 
+Add the spring application context entries shown below to the application context XML( this configures authentication against LDAP). 
 
-    <bean class="com.khs.security.auth.SherpaSpringAuthentication" />
+    <bean class="com.khs.sherpa.spring.SpringAuthentication"/>
        
 	<security:ldap-server id="contextSource"
 		url="ldap://<host>:<port>/dc=keyholesoftware,dc=com" 
@@ -76,12 +77,12 @@ Turn on endpoint authentication by adding the following entry to the sherpa.prop
 
 Get authenticated token from Sherpa with URL below.
 
-  token =  <host url>/sherpa/action="authenticate"&userid="<userid>"&password="<password>"
+  token =  <host url>/sherpa?action=authenticate&userid="<userid>"&password="<password>"
 
-Invoke end point URL using jquery, notice auth token and userid being set in request header. 
+ Invoke end point URL using jquery, notice auth token and userid being set in request header. 
 
 	$.ajax({
-	 url:sherpa/service/users
+	 url:sherpa/service/users,
      type:"GET",
      beforeSend: function (request)
      {   // add secure token an userid to request header
