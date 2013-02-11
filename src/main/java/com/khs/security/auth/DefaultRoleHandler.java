@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultRoleHandler extends RoleVoter implements RoleHandler {
 
-	@Override
 	public String[] authenticatedRoles(Authentication authentication) {
 		return new String[]{};
 	}
