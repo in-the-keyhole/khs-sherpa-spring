@@ -29,8 +29,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.khs.sherpa.context.ApplicationContext;
 import com.khs.sherpa.context.factory.ManagedBeanFactory;
 import com.khs.sherpa.exception.NoSuchManagedBeanExcpetion;
-import com.khs.sherpa.spring.SpringApplicationContext;
-import com.khs.sherpa.spring.SpringManagedBeanFactory;
 
 public class SpringApplicationContext implements ApplicationContext {
 
