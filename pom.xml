@@ -23,11 +23,17 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
+<!-- 	<scm> -->
+<!-- 		<url>https://github.com/in-the-keyhole/khs-sherpa-spring</url> -->
+<!-- 		<connection>scm:git:https://github.com/in-the-keyhole/khs-sherpa-spring.git</connection> -->
+<!-- 		<developerConnection>scm:git:git@github.com:in-the-keyhole/khs-sherpa-spring.git</developerConnection> -->
+<!-- 	</scm> -->
 	<scm>
-		<url>https://github.com/in-the-keyhole/khs-sherpa-spring</url>
-		<connection>scm:git:https://github.com/in-the-keyhole/khs-sherpa-spring.git</connection>
-		<developerConnection>scm:git:git@github.com:in-the-keyhole/khs-sherpa-spring.git</developerConnection>
+		<url>scm:git:file://localhost/users/dpitt/git/khs-sherpa-spring</url>
+		<connection>scm:git:file://localhost/users/dpitt/git/khs-sherpa-spring</connection>
+		<developerConnection>scm:git:file://localhost/users/dpitt/git/khs-sherpa-spring</developerConnection>
 	</scm>
+
 
 	<build>
 		<plugins>
