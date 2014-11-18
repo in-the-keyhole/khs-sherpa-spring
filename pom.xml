@@ -74,7 +74,7 @@
 		<dependency>
 			<artifactId>khs-sherpa</artifactId>
 			<groupId>com.keyholesoftware</groupId>
-			<version>1.2.2-SNAPSHOT</version>
+			<version>1.2.3-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

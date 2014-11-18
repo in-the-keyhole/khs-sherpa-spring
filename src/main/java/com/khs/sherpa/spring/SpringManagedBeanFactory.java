@@ -29,7 +29,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.core.token.TokenService;
 
 import com.khs.sherpa.SherpaSettings;
 import com.khs.sherpa.annotation.Endpoint;
