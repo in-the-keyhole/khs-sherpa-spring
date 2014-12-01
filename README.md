@@ -23,6 +23,21 @@ To build it, clone then install in local maven repo:
     $ git clone ...
 	$ cd khs-sherpa-spring
 	$ mvn install
+
+Add the following entry to  `sherpa.properties`:
+
+	application.context=com.khs.sherpa.spring.SpringApplicationContext
+
+
+Add the following to your `web.xml` after Sherpa's listener, but before your application listener:
+
+
+	<listener>
+	    <listener-class>com.khs.sherpa.spring.SpringApplicationContext</listener-class>
+	</listener>
+
+
+Your ready to start wiring things up with Spring and Sherpa
 	
 
 @Autowire Dependencies
