@@ -24,13 +24,12 @@ To build it, clone then install in local maven repo:
 	$ cd khs-sherpa-spring
 	$ mvn install
 
-Add the following entry to  `sherpa.properties`:
+Only required for `Sherpa v1.3.0` and above. Add the following entry to  `sherpa.properties`:
 
 	application.context=com.khs.sherpa.spring.SpringApplicationContext
 
 
-Add the following to your `web.xml` after Sherpa's listener, but before your application listener:
-
+Only required for 'Sherpa v1.3.0' and above. Add following to your `web.xml` after Sherpa's listener, but before your application listener:
 
 	<listener>
 	    <listener-class>com.khs.sherpa.spring.SpringApplicationContext</listener-class>
