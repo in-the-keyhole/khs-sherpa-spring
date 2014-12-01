@@ -38,7 +38,7 @@ Add following to your `web.xml` after Sherpa's listener, but before your applica
 
 Your ready to start wiring things up with Spring and Sherpa
 
-> NOTE: Versions of Sherpa prior to v.1.3.0 do not require defining `application.context` or `the SpringApplicationContext` listener 	
+> NOTE: Versions of Sherpa prior to v.1.3.0 do not require defining `application.context` or `the SpringApplicationContext` listener to be defined	
 
 @Autowire Dependencies
 ----------------------
