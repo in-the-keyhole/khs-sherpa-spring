@@ -14,7 +14,7 @@ Using Maven: add this dependency in your 'pom.xml' (available in Maven central r
     <dependency>
    	 <groupId>com.keyholesoftware</groupId>
    	 <artifactId>khs-sherpa-spring</artifactId>
-   	<version>1.2.1</version>
+   	<version>1.3.0</version>
     </dependency>
    
 
@@ -24,12 +24,12 @@ To build it, clone then install in local maven repo:
 	$ cd khs-sherpa-spring
 	$ mvn install
 
-Only required for `Sherpa v1.3.0` and above. Add the following entry to  `sherpa.properties`:
+Add the following entry to  `sherpa.properties`:
 
 	application.context=com.khs.sherpa.spring.SpringApplicationContext
 
 
-Only required for 'Sherpa v1.3.0' and above. Add following to your `web.xml` after Sherpa's listener, but before your application listener:
+Add following to your `web.xml` after Sherpa's listener, but before your application listener:
 
 	<listener>
 	    <listener-class>com.khs.sherpa.spring.SpringApplicationContext</listener-class>
@@ -37,7 +37,8 @@ Only required for 'Sherpa v1.3.0' and above. Add following to your `web.xml` aft
 
 
 Your ready to start wiring things up with Spring and Sherpa
-	
+
+> NOTE: Versions of Sherpa prior to v.1.3.0 do not require defining `application.context` or `the SpringApplicationContext` listener 	
 
 @Autowire Dependencies
 ----------------------
