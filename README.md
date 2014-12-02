@@ -1,7 +1,7 @@
 khs-sherpa-spring [![Build Status](https://secure.travis-ci.org/in-the-keyhole/khs-sherpa-spring.png?branch=master)](http://travis-ci.org/in-the-keyhole/khs-sherpa-spring)
 =================
 
-Integrates the khsSherpa RESTul JSON API framework with Spring and Spring Authentication.
+Integrates the khsSherpa RESTful JSON API framework with Spring and Spring Authentication.
 
 Link to khsSherpa project here...[https://github.com/in-the-keyhole/khs-sherpa] 
 
