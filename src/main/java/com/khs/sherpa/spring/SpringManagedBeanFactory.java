@@ -22,6 +22,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import com.khs.sherpa.servlet.request.SherpaRequest;
 import org.reflections.Reflections;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -136,7 +137,13 @@ public class SpringManagedBeanFactory implements ManagedBeanFactory, InitManageB
 		} catch (NoSuchBeanDefinitionException e) {
 			this.loadManagedBean("jsonProvider", settings.jsonProvider());
 		}
-		
+
+		try {
+			springApplicationContext.getBean(SherpaRequest.class);
+		} catch (NoSuchBeanDefinitionException e) {
+			this.loadManagedBean("sherpaRequestService", settings.sherpaRequestService());
+		}
+
 		this.loadManagedBean("StringParamParser", StringParamParser.class);
 		this.loadManagedBean("IntegerParamParser", IntegerParamParser.class);
 		this.loadManagedBean("DoubleParamPaser", DoubleParamPaser.class);
